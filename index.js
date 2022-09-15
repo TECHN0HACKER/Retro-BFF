@@ -2,10 +2,13 @@ const DISCORDJS = require('discord.js')
 const fs = require('fs')
 require('dotenv/config')
 const { Client, Intents } = require('discord.js');
+const { channel } = require('diagnostics_channel');
+const { prototype } = require('events');
     
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 const prefix = ';';
+const defprefix = '$';
 var now = new Date();
 var hour = now.getHours();
 var minute = now.getMinutes();
@@ -176,7 +179,7 @@ client.on('interactionCreate', async (interaction) => {
 
     if (commandName === 'help') {
         interaction.reply({
-            content: 'some triggers are\n;def\n;udef\n;probability\n;8ball\nmention\nspam my dm\n;spam (only for certain people)\n;math\n;dm (only for certain people)',
+            content: 'some triggers are\n$def\n;def\n;udef\n;probability\n;8ball\nmention\nspam my dm\n;spam (only for certain people)\n;math\n;calc\n;dm (only for certain people)',
             ephermal: false,
         })
     };
@@ -296,6 +299,32 @@ client.on('messageCreate', (message) => {
 //    }
 //});
 
+//client.on('messageCreate', (message) => {
+//    if (message.author.id !== '678983633721360384') return;
+//    else {
+//        message.reply("bro u dont even have a family ur family had to abandon u cause of ur no heart no kindness no emotions for anyone always sending disturbing things and doing nothing in ur life and ur future is sooooo bright this is why ur life is pure nothing go die go cry stay mad cry about it dont care ur adopted ratioed blocked die gay nub single trash adopted abandoned 40 year old virgin trash talker no lifer doing nothing in life ")
+//        message.delete(1);
+//    } 
+//})
+
+client.on('messageCreate', (message) => {
+    if(!message.content.startsWith(defprefix) || message.author.bot) return;
+
+    const arguments = message.content.slice(defprefix.length).split(/ +/);
+    const commands = arguments.shift().toLowerCase();
+
+    if (commands === 'def') {
+        var messages = message.content.slice(5).trim();
+        try {
+            if (!messages || message.author.bot) return;
+         else {
+            messages = messages.replace(/ /g,"%20")
+            message.reply('https://www.dictionary.com/browse/'+messages)
+            }
+        } catch {console.error();}
+    }
+});
+
 client.on('messageCreate', (message) => {
     if(!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -303,7 +332,7 @@ client.on('messageCreate', (message) => {
     const command = args.shift().toLowerCase();
 
     if(command === 'help'){
-        message.reply('some triggers are\n;def\n;udef\n;probability\n;8ball\nmention\nspam my dm\n;spam (only for certain people)\n;math\n;dm (only for certain people)');
+        message.reply('some triggers are\n$def\n;def\n;udef\n;probability\n;8ball\nmention\nspam my dm\n;spam (only for certain people)\n;math\n;calc\n;dm (only for certain people)');
     }
 
     if (command === 'def') {
@@ -357,12 +386,28 @@ client.on('messageCreate', (message) => {
         }
     }
 
+    if (command === 'calc'){
+        var problem = message.content.slice(5).trim();
+        let invalid = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+        let invalidreply = false;
+        try{
+            for (var i in invalid) {
+                if (problem.toLowerCase().includes(invalid[i].toLowerCase())) invalidreply = true;
+            }
+        if (invalidreply == true) {
+            message.reply("bruh noob don't even think about it \n ||https://media1.tenor.com/images/4d190f8e518931f91013635afc733fad/tenor.gif?itemid=24965832||");
+        } else {
+        const checked = eval(problem);
+        message.reply(String(checked));}
+        } catch {message.reply("nub go check what you asked to calculate again there seems to be an error in it " + `${client.emojis.cache.find(emoji => emoji.name === "Bruh")}`)}
+    }
+    
     if (command === '8ball'){
         function randomIntFromInterval(min, max) { // min and max included 
             return Math.floor(Math.random() * (max - min + 1) + min)
           }
           
-          const rndInt = randomIntFromInterval(1, 6)
+          const rndInt = randomIntFromInterval(1, 13)
           if(rndInt === 1) {
             message.reply('Nah');
           }
@@ -377,8 +422,26 @@ client.on('messageCreate', (message) => {
           } 
           if(rndInt === 5) {
             message.reply('stop it');
-          }        
+          }     
           if(rndInt === 6) {
+            message.reply('I would say that has a relatively lower probability based on the available statistical data <:Howtouseanoose:1009470436855271424>');
+          }   
+          if(rndInt === 7) {
+            message.reply('yeah no..');
+          } 
+          if(rndInt === 8) {
+            message.reply("yesn't");
+          } 
+          if(rndInt === 9) {
+            message.reply('cap');
+          } 
+          if(rndInt === 10) {
+            message.reply('hell yeah!');
+          } 
+          if(rndInt === 11) {
+            message.reply("what if that's a no?");
+          } 
+          if(rndInt === 12) {
             message.reply('ask <@678983633721360384> about that');
           }
         console.log(rndInt);
@@ -432,16 +495,27 @@ client.on('messageCreate', (message) => {
     if (command === 'dm') {
         const member = message.mentions.users.first();
         const msgs = args.slice(1).join(" ");
+        const chnl = message.channel.id
         var Attach = message.attachments;
         try {
             if (!member) {message.reply('please mention someone noob <:Pagal_Harvey:943088862123655199>')}
             if (Attach.size > 0) {
+                if (chnl === '1008053794673807411') {
                 member.send({
                     content: msgs,
                     files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});
-              } else {
-                member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});
-              }
+                } else {
+                    member.send({
+                    content: msgs+'\nthis message was directed by <@' + message.author.id + '>',
+                    files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});                        
+                }
+            } else {
+                if (chnl === '1008053794673807411') {
+                member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});}
+                else if (chnl !== '1008053794673807411') {
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});
+                }
+            }
         } catch {}
     }
 });
