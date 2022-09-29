@@ -2,8 +2,6 @@ const DISCORDJS = require('discord.js')
 const fs = require('fs')
 require('dotenv/config')
 const { Client, Intents } = require('discord.js');
-const { channel } = require('diagnostics_channel');
-const { prototype } = require('events');
     
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
@@ -179,7 +177,7 @@ client.on('interactionCreate', async (interaction) => {
 
     if (commandName === 'help') {
         interaction.reply({
-            content: 'some triggers are\n$def\n;def\n;udef\n;probability\n;8ball\nmention\nspam my dm\n;spam (only for certain people)\n;math\n;calc\n;dm (only for certain people)',
+            content: 'some triggers are\n$def\n;def\n;udef\n;list\n;probability\n;8ball\nspam my dm\n;spam (only for certain people)\n;math\n;calc\n;dm (only for certain people)',
             ephermal: false,
         })
     };
@@ -256,13 +254,17 @@ client.on('interactionCreate', async (interaction) => {
 //        })
 //    }
 // })
-// client.on('messageCreate', (message) => {
-//    if (message.mentions.) {
-//        message.reply({
-//            content: '<@'+message.author.id+'>'
-//        })
-//    }
-// })
+client.on('messageCreate', (message) => {
+    let blacklist = ['hurt', 'hurts', 'hate', 'HATE', 'HURT', 'HURTS']
+    let presence = false;
+    if (message.author.id == "810519331985162312") {
+        for (var i in blacklist) {
+            if (message.content.toLowerCase().includes(blacklist[i].toLowerCase()))presence = true;
+        } if (presence) {
+            message.delete();
+        }
+    }
+})
 
 client.on('messageCreate', (message) => {
     if (message.content == 'spam my dm') {
@@ -332,7 +334,7 @@ client.on('messageCreate', (message) => {
     const command = args.shift().toLowerCase();
 
     if(command === 'help'){
-        message.reply('some triggers are\n$def\n;def\n;udef\n;probability\n;8ball\nmention\nspam my dm\n;spam (only for certain people)\n;math\n;calc\n;dm (only for certain people)');
+        message.reply('some triggers are\n$def\n;def\n;udef\n;list\n;probability\n;8ball\nspam my dm\n;spam (only for certain people)\n;math\n;calc\n;dm (only for certain people)');
     }
 
     if (command === 'def') {
@@ -386,6 +388,18 @@ client.on('messageCreate', (message) => {
         }
     }
 
+    if (command === 'list'){
+        const place = "C:\\Users\\user\\Desktop\\Ahsab\\bot\\Retro BFF\\list.txt"
+        const locate = "C:\\Users\\user\\Desktop\\Ahsab\\bot\\Retro BFF\\dictionary"
+        var files = fs.readdirSync(locate);
+        const real = files.toString();
+        const actual = real.replace(/.txt,/g, "\n")
+        fs.writeFile(place, actual, err => {});
+        message.reply({
+            files: [{attachment: place}]
+        })
+    }
+
     if (command === 'calc'){
         var problem = message.content.slice(5).trim();
         let invalid = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
@@ -395,7 +409,12 @@ client.on('messageCreate', (message) => {
                 if (problem.toLowerCase().includes(invalid[i].toLowerCase())) invalidreply = true;
             }
         if (invalidreply == true) {
-            message.reply("bruh noob don't even think about it \n ||https://media1.tenor.com/images/4d190f8e518931f91013635afc733fad/tenor.gif?itemid=24965832||");
+            if (message.author.id == "678983633721360384") {
+                const checked = eval(problem);
+                message.reply(String(checked));
+            } else {
+            message.reply("bruh noob don't even think about it \n https://media1.tenor.com/images/4d190f8e518931f91013635afc733fad/tenor.gif?itemid=24965832");
+            }
         } else {
         const checked = eval(problem);
         message.reply(String(checked));}
@@ -424,7 +443,7 @@ client.on('messageCreate', (message) => {
             message.reply('stop it');
           }     
           if(rndInt === 6) {
-            message.reply('I would say that has a relatively lower probability based on the available statistical data <:Howtouseanoose:1009470436855271424>');
+            message.reply('I would say that has a relatively lower probability based on the available statistical data <:Howtouseanoose:961687228839510038>');
           }   
           if(rndInt === 7) {
             message.reply('yeah no..');
@@ -449,47 +468,41 @@ client.on('messageCreate', (message) => {
     
     // Restrict a command to a specific user by ID
     if (message.author.id !== "678983633721360384" && message.author.id !== "947148014676488332" && message.author.id !== "959091572136378439" && message.author.id !== "765099314300715029" && message.author.id !== "713781385692708924" && message.author.id !== "761187683903995914" && message.author.id !== "775769962388127774" && message.author.id !== "783702351135244291" && message.author.id !== "717258035747094563" && message.author.id !== "766294055390412850") return
+
     if (command === 'spam') {
-        let member = message.mentions.users.first();
+        const member = message.mentions.users.first();
+        const msgs = args.slice(1).join(" ");
+        const chnl = message.channel.id
         try {
-            const id = member.id;
-            client.users.fetch(id, false).then((user) => {
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:985843134804131860>')});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-            user.send('this message was directed by <@' + message.author.id + '>').catch(() => {});
-        });
-        } catch {message.reply('please mention someone noob <:Pagal_Harvey:943088862123655199>')}
+            if (!member) {message.reply('please mention someone noob <:Pagal_Harvey:943088862123655199>')}
+                if (chnl === '1008053794673807411' && msgs.length !== 0) {
+                member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)
+                member.send(msgs)}
+                else if (chnl !== '1008053794673807411') {
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
+                }
+        } catch {}
     }
 
     if (command === 'dm') {
@@ -503,17 +516,17 @@ client.on('messageCreate', (message) => {
                 if (chnl === '1008053794673807411') {
                 member.send({
                     content: msgs,
-                    files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});
+                    files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});
                 } else {
                     member.send({
                     content: msgs+'\nthis message was directed by <@' + message.author.id + '>',
-                    files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});                        
+                    files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});                        
                 }
             } else {
                 if (chnl === '1008053794673807411') {
-                member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});}
+                member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});}
                 else if (chnl !== '1008053794673807411') {
-                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:974238574482456586>')});
+                    member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});
                 }
             }
         } catch {}
