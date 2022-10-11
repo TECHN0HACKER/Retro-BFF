@@ -64,6 +64,28 @@ client.on('ready', () => {
     })
 
     cmds?.create({
+        name: 'truth',
+        description: 'Add a truth question',
+        options: [{
+            name: 'question',
+            description: 'the truth question you want to add',
+            required: true,
+            type: DISCORDJS.Constants.ApplicationCommandOptionTypes.STRING           
+        }],
+    })
+
+    cmds?.create({
+        name: 'dare',
+        description: 'Add a dare',
+        options: [{
+            name: 'dare',
+            description: 'the dare you want to add',
+            required: true,
+            type: DISCORDJS.Constants.ApplicationCommandOptionTypes.STRING           
+        }],
+    })
+
+    cmds?.create({
         name: 'help',
         description: 'Get help regarding the bot',
     })
@@ -173,6 +195,102 @@ client.on('interactionCreate', async (interaction) => {
         } catch {
             interaction.reply('uhh some problem happened idk what it is but you can try to not include special characters in the word');
         }
+    };
+
+    if (commandName === 'truth') {
+        const question = options.getString('question')
+        const location = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/truth/'
+        const file = location + Math.floor(Math.random() * 100000000000) + '.txt'
+        const place = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/tlist.txt'
+        var presence = false
+        var items = fs.readdirSync(location);
+        fs.writeFile(place, '', err => {});
+        for (const file of items) {
+            fs.readFile(location+file, 'utf-8', (err, data) => {
+                fs.appendFile(place, data+'\n', err => {});
+            })
+        }
+        var delayInMilliseconds = 100; //1 second
+        setTimeout(function() {
+        try {
+            fs.readFile(place, 'utf-8', (err, data) => {
+            var list = data.split("\n")
+            list.pop();
+            for (var i in list) {
+                    if (question.toLowerCase().includes(list[i].toLowerCase())){
+                        presence = true
+                        console.log("true")
+                    }
+                }
+            })
+            var delayInMilliseconds = 100; //1 second
+            setTimeout(function() {
+                if (presence == false) {
+                    console.log("false")
+                    fs.writeFile(file, question, err => {
+                        if(err) {
+                            message.reply('error');
+                            console.error(err);
+                            return;
+                        }
+                    interaction.reply('ok done');})
+                } else {
+                    interaction.reply("no");
+                }
+            }, delayInMilliseconds);
+        } catch(err) {
+            interaction.reply('uhh some problem happened idk what it is');
+            console.log(err);
+        }
+    }, delayInMilliseconds);
+    };
+
+    if (commandName === 'dare') {
+        const question = options.getString('dare')
+        const location = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/dare/'
+        const file = location + Math.floor(Math.random() * 100000000000) + '.txt'
+        const place = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/dlist.txt'
+        var presence = false
+        var items = fs.readdirSync(location);
+        fs.writeFile(place, '', err => {});
+        for (const file of items) {
+            fs.readFile(location+file, 'utf-8', (err, data) => {
+                fs.appendFile(place, data+'\n', err => {});
+            })
+        }
+        var delayInMilliseconds = 100; //1 second
+        setTimeout(function() {
+        try {
+            fs.readFile(place, 'utf-8', (err, data) => {
+            var list = data.split("\n")
+            list.pop();
+            for (var i in list) {
+                    if (question.toLowerCase().includes(list[i].toLowerCase())){
+                        presence = true
+                        console.log("true")
+                    }
+                }
+            })
+            var delayInMilliseconds = 100; //1 second
+            setTimeout(function() {
+                if (presence == false) {
+                    console.log("false")
+                    fs.writeFile(file, question, err => {
+                        if(err) {
+                            message.reply('error');
+                            console.error(err);
+                            return;
+                        }
+                    interaction.reply('ok done');})
+                } else {
+                    interaction.reply("no");
+                }
+            }, delayInMilliseconds);
+        } catch(err) {
+            interaction.reply('uhh some problem happened idk what it is');
+            console.log(err);
+        }
+    }, delayInMilliseconds);
     };
 
     if (commandName === 'help') {
@@ -358,6 +476,70 @@ client.on('messageCreate', (message) => {
         } catch {message.reply('not found and what you said is: `' + msgs + '`')}
     }
     
+    if (command === 'truth') {
+        const location = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/truth/';
+        var items = fs.readdirSync(location);
+        let file = location + items[Math.floor(Math.random() * items.length)] 
+        try {
+            fs.readFile(file, 'utf-8', (err, data) => {
+                if(err) {
+                    message.reply('error');
+                    console.error(err);
+                    return;
+                }
+                message.reply(data);
+            })
+        } catch {message.reply('there was an error')}
+    }
+
+    if (command === 'dare') {
+        const location = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/dare/';
+        var items = fs.readdirSync(location);
+        let file = location + items[Math.floor(Math.random() * items.length)] 
+        try {
+            fs.readFile(file, 'utf-8', (err, data) => {
+                if(err) {
+                    message.reply('error');
+                    console.error(err);
+                    return;
+                }
+                message.reply(data);
+            })
+        } catch {message.reply('there was an error')}
+    }
+
+    if (command === 'tlist') {
+        const place = "C:\\Users\\user\\Desktop\\Ahsab\\bot\\Retro BFF\\tlist.txt"
+        const location = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/truth/';
+        var items = fs.readdirSync(location);
+        fs.writeFile(place, '', err => {});
+        for (const file of items) {
+            fs.readFile(location+file, 'utf-8', (err, data) => {
+                fs.appendFile(place, data+'\n', err => {});
+            })
+        }
+        var delayInMilliseconds = 100; //1 second
+        setTimeout(function() {
+            message.reply({files: [{attachment: place}]})
+        }, delayInMilliseconds);
+    }
+
+    if (command === 'dlist') {
+        const place = "C:\\Users\\user\\Desktop\\Ahsab\\bot\\Retro BFF\\dlist.txt"
+        const location = 'C:/Users/user/Desktop/Ahsab/bot/Retro BFF/dare/';
+        var items = fs.readdirSync(location);
+        fs.writeFile(place, '', err => {});
+        for (const file of items) {
+            fs.readFile(location+file, 'utf-8', (err, data) => {
+                fs.appendFile(place, data+'\n', err => {});
+            })
+        }
+        var delayInMilliseconds = 100; //1 second
+        setTimeout(function() {
+            message.reply({files: [{attachment: place}]})
+        }, delayInMilliseconds);
+    }
+
     if (command === 'probability'){
         message.reply(Math.random()*100 +'%');
     }
