@@ -591,7 +591,7 @@ client.on('messageCreate', (message) => {
                 if (problem.toLowerCase().includes(invalid[i].toLowerCase())) invalidreply = true;
             }
         if (invalidreply == true) {
-            if (message.author.id == "678983633721360384") {
+            if (message.author.id === "678983633721360384" || message.author.id === "947148014676488332") {
                 const checked = eval(problem);
                 message.reply(String(checked));
             } else {
@@ -657,7 +657,7 @@ client.on('messageCreate', (message) => {
         const chnl = message.channel.id
         try {
             if (!member) {message.reply('please mention someone noob <:Pagal_Harvey:943088862123655199>')}
-                if (chnl === '1008053794673807411' && msgs.length !== 0) {
+                if (chnl === '1112363647235268628' && msgs.length !== 0) {
                 member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});
                 member.send(msgs)
                 member.send(msgs)
@@ -670,7 +670,7 @@ client.on('messageCreate', (message) => {
                 member.send(msgs)
                 member.send(msgs)
                 member.send(msgs)}
-                else if (chnl !== '1008053794673807411') {
+                else if (chnl !== '1112363647235268628') {
                     member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});
                     member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
                     member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>')
@@ -695,7 +695,7 @@ client.on('messageCreate', (message) => {
         try {
             if (!member) {message.reply('please mention someone noob <:Pagal_Harvey:943088862123655199>')}
             if (Attach.size > 0) {
-                if (chnl === '1008053794673807411') {
+                if (chnl === '1112363647235268628') {
                 member.send({
                     content: msgs,
                     files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});
@@ -705,9 +705,9 @@ client.on('messageCreate', (message) => {
                     files: [{attachment: message.attachments.first().url}]}).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});//.catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:989044218355908609>')});                        
                 }
             } else {
-                if (chnl === '1008053794673807411') {
+                if (chnl === '1112363647235268628') {
                 member.send(msgs).catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});}
-                else if (chnl !== '1008053794673807411') {
+                else if (chnl !== '1112363647235268628') {
                     member.send(msgs+'\nthis message was directed by <@' + message.author.id + '>').catch(() => {message.reply('bruh that person blocked me or dm is closed <:sheeeeeeeeeeeesh:961687228894027837>')});
                 }
             }
