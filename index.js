@@ -570,6 +570,144 @@ client.on('messageCreate', (message) => {
         }
     }
 
+    var val=0;
+    if (command === 'add'){
+        function randomIntFromInterval(min, max) { 
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+        const value1 = randomIntFromInterval(10000, 100000);
+        const value2 = randomIntFromInterval(10000, 100000);
+        //const value2 = randomIntFromInterval(0, 20);
+        //const type = randomIntFromInterval(1, 2);
+        const checking = setInterval(() => {
+            val+=1;
+            if (val==60) {
+                val=0;
+                clearInterval(checking);
+                console.log('60 seconds over');
+            };
+        }, 1000);
+        client.on('messageCreate', async (message) => {
+            if(!message.reference || message.author.bot) {
+                return;
+            } else {
+                const guild = client.guilds.cache.get(message.reference.guildId);
+                const channel = guild.channels.cache.get(message.reference.channelId);
+                const massage = await channel.messages.fetch(message.reference.messageId);
+                if (massage.content.includes(value1 && value2) && val!==0) {
+                    message.reply('time taken: '+val+' seconds');
+                }
+            }
+        });
+        message.reply('here is an addition question\n'+(Math.round(value1))+'+'+(Math.round(value2)));
+    }
+
+    var mul=0;
+    if (command === 'mul'){
+        function randomIntFromInterval(min, max) { 
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+        const value1 = randomIntFromInterval(10, 100);
+        const value2 = randomIntFromInterval(10, 100);
+        //const value2 = randomIntFromInterval(0, 20);
+        //const type = randomIntFromInterval(1, 2);
+        const checking = setInterval(() => {
+            mul+=1;
+            if (mul==60) {
+                mul=0;
+                clearInterval(checking);
+                console.log('60 seconds over');
+            };
+        }, 1000);
+        client.on('messageCreate', async (message) => {
+            if(!message.reference || message.author.bot) {
+                return;
+            } else {
+                const guild = client.guilds.cache.get(message.reference.guildId);
+                const channel = guild.channels.cache.get(message.reference.channelId);
+                const massage = await channel.messages.fetch(message.reference.messageId);
+                if (massage.content.includes(value1 && value2) && mul!==0) {
+                    message.reply('time taken: '+mul+' seconds');
+                }
+            }
+        });
+        message.reply('here is a multiplication question\n'+(Math.round(value1))+'*'+(Math.round(value2)));
+    }
+
+    var sub=0;
+    if (command === 'sub'){
+        function randomIntFromInterval(min, max) { 
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+        const value1 = randomIntFromInterval(100, 10000);
+        const value2 = randomIntFromInterval(100, 10000);
+        //const value2 = randomIntFromInterval(0, 20);
+        //const type = randomIntFromInterval(1, 2);
+        const checking = setInterval(() => {
+            sub+=1;
+            if (sub==120) {
+                sub=0;
+                clearInterval(checking);
+                console.log('120 seconds over');
+            };
+        }, 1000);
+        client.on('messageCreate', async (message) => {
+            if(!message.reference || message.author.bot) {
+                return;
+            } else {
+                const guild = client.guilds.cache.get(message.reference.guildId);
+                const channel = guild.channels.cache.get(message.reference.channelId);
+                const massage = await channel.messages.fetch(message.reference.messageId);
+                if (massage.content.includes(value1 && value2) && sub!==0) {
+                    message.reply('time taken: '+sub+' seconds');
+                }
+            }
+        });
+        message.reply('here is a subtraction question\n'+(Math.round(value1))+'-'+(Math.round(value2)));
+    }
+
+    var div=0;
+    if (command === 'div'){
+        let value1=0;
+        let value2=0;
+        function randomIntFromInterval(min, max) { 
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+        while (true) {
+            value1 = randomIntFromInterval(10, 10000);
+            value2 = randomIntFromInterval(10, 100);
+            if (value1%value2 === 0) {
+                console.log('done');
+                message.reply('here is a division question\n'+(Math.round(value1))+'/'+(Math.round(value2)));
+                break;
+            } else {
+                continue;
+            }
+        }
+        //const value2 = randomIntFromInterval(0, 20);
+        //const type = randomIntFromInterval(1, 2);
+        const checking = setInterval(() => {
+            div+=1;
+            if (div==120) {
+                div=0;
+                clearInterval(checking);
+                console.log('120 seconds over');
+            };
+        }, 1000);
+        client.on('messageCreate', async (message) => {
+            if(!message.reference || message.author.bot) {
+                return;
+            } else {
+                const guild = client.guilds.cache.get(message.reference.guildId);
+                const channel = guild.channels.cache.get(message.reference.channelId);
+                const massage = await channel.messages.fetch(message.reference.messageId);
+                if (massage.content.includes(value1 && value2) && div!==0) {
+                    message.reply('time taken: '+div+' seconds');
+                }
+            }
+        });
+    }
+
     if (command === 'list'){
         const place = "C:\\Users\\user\\Desktop\\Ahsab\\bot\\Retro BFF\\list.txt"
         const locate = "C:\\Users\\user\\Desktop\\Ahsab\\bot\\Retro BFF\\dictionary"
